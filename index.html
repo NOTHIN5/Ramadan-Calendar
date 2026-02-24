@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Accurate Iftar and Sehri Calendar for 8 Divisions of Bangladesh.">
+    <title>Iftar & Sehri Calendar | Bangladesh</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="background-elements">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+    </div>
+
+    <div class="app-container">
+        <header>
+            <div class="logo">
+                <i class="fa-solid fa-moon"></i>
+                <h1>Noor Calendar</h1>
+            </div>
+
+            <div class="division-selector-container">
+                <label for="division-select" class="sr-only">Select Division</label>
+                <div class="custom-select-wrapper">
+                    <i class="fa-solid fa-location-dot location-icon"></i>
+                    <select id="division-select" class="custom-select">
+                        <option value="dhaka" selected>Dhaka</option>
+                        <option value="chattogram">Chattogram</option>
+                        <option value="rajshahi">Rajshahi</option>
+                        <option value="khulna">Khulna</option>
+                        <option value="barishal">Barishal</option>
+                        <option value="sylhet">Sylhet</option>
+                        <option value="rangpur">Rangpur</option>
+                        <option value="mymensingh">Mymensingh</option>
+                    </select>
+                    <i class="fa-solid fa-chevron-down arrow-icon"></i>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <section class="hero-card glass-panel">
+                <div class="hero-top">
+                    <!-- Date info -->
+                    <div class="date-info">
+                        <p id="hijri-date" class="hijri-date">Loading...</p>
+                        <p id="gregorian-date" class="gregorian-date">Loading...</p>
+                    </div>
+                </div>
+
+                <div class="countdown-container">
+                    <h2 id="next-event-title" class="event-title">Next Event in</h2>
+                    <div class="timer" id="timer">
+                        <div class="time-box">
+                            <span id="hours">00</span>
+                            <span class="label">Hours</span>
+                        </div>
+                        <span class="colon">:</span>
+                        <div class="time-box">
+                            <span id="minutes">00</span>
+                            <span class="label">Minutes</span>
+                        </div>
+                        <span class="colon">:</span>
+                        <div class="time-box highlight-box">
+                            <span id="seconds">00</span>
+                            <span class="label">Seconds</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="today-times">
+                    <div class="time-card sehri-card">
+                        <div class="time-card-icon">
+                            <i class="fa-solid fa-cloud-sun"></i>
+                        </div>
+                        <div class="time-card-info">
+                            <h3>Sehri Ends</h3>
+                            <p id="today-sehri" class="time-value">--:--</p>
+                        </div>
+                    </div>
+
+                    <div class="time-card iftar-card">
+                        <div class="time-card-icon">
+                            <i class="fa-solid fa-sunset"></i>
+                        </div>
+                        <div class="time-card-info">
+                            <h3>Iftar Starts</h3>
+                            <p id="today-iftar" class="time-value">--:--</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="monthly-schedule">
+                <div class="section-header">
+                    <h2>Ramadan Schedule</h2>
+                    <p id="month-name">Ramadan 1447 AH</p>
+                </div>
+
+                <div class="table-container glass-panel">
+                    <table id="schedule-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Day</th>
+                                <th>Sehri</th>
+                                <th>Iftar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="schedule-body">
+                            <!-- Rows generated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Calculated precisely for the 8 Divisions of Bangladesh.</p>
+            <p class="credits">Designed with <i class="fa-solid fa-heart"></i> for the community.</p>
+        </footer>
+    </div>
+
+    <!-- Adhan JS for Prayer Times Calculation -->
+    <script src="adhan.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
