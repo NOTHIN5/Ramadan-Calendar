@@ -24,8 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
     params.highLatitudeRule = adhan.HighLatitudeRule.TwilightAngle;
 
     // Adjustments for Bangladesh local standards (adding safety minutes)
-    params.adjustments.fajr = 2;
-    params.adjustments.maghrib = 3;
+    params.adjustments.fajr = -1;
+    params.adjustments.maghrib = 1;
 
     // Elements
     const divisionSelect = document.getElementById('division-select');
