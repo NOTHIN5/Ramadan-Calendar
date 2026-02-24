@@ -23,6 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Safety for high latitude issues
     params.highLatitudeRule = adhan.HighLatitudeRule.TwilightAngle;
 
+    // Adjustments for Bangladesh local standards (adding safety minutes)
+    params.adjustments.fajr = 2;
+    params.adjustments.maghrib = 3;
+
     // Elements
     const divisionSelect = document.getElementById('division-select');
     const hijriDateEl = document.getElementById('hijri-date');
@@ -42,13 +46,49 @@ document.addEventListener('DOMContentLoaded', () => {
     let countdownInterval;
 
     // Initialize application
-    function init() {
+    async function init() {
         updateDates();
+
+        // Auto-detect location based on IP
+        await autoDetectLocation();
+
         updateDisplay();
 
         divisionSelect.addEventListener('change', () => {
             updateDisplay();
         });
+    }
+
+    async function autoDetectLocation() {
+        try {
+            const response = await fetch('https://get.geojs.io/v1/ip/geo.json');
+            const data = await response.json();
+
+            if (data.latitude && data.longitude) {
+                const userLat = parseFloat(data.latitude);
+                const userLon = parseFloat(data.longitude);
+
+                let nearestDivision = 'dhaka';
+                let shortestDistance = Infinity;
+
+                // Simple distance calculation (Pythagorean) since BD is small
+                for (const [divName, coords] of Object.entries(divisions)) {
+                    const dLat = coords.latitude - userLat;
+                    const dLon = coords.longitude - userLon;
+                    const distance = dLat * dLat + dLon * dLon;
+
+                    if (distance < shortestDistance) {
+                        shortestDistance = distance;
+                        nearestDivision = divName;
+                    }
+                }
+
+                console.log('Nearest division auto-selected:', nearestDivision);
+                divisionSelect.value = nearestDivision;
+            }
+        } catch (error) {
+            console.log('Could not fetch geolocation:', error);
+        }
     }
 
     function updateDates() {
@@ -161,8 +201,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderMonthlySchedule(coordinates, now) {
-        // Ramadan 1447 AH / 2026 Starts Feb 18
-        const ramadanStart = new Date('2026-02-18T00:00:00');
+        // Ramadan 1447 AH / 2026 Starts Feb 19
+        const ramadanStart = new Date('2026-02-19T00:00:00');
 
         // Update title
         monthNameEl.textContent = 'Ramadan 1447 AH (2026)';
