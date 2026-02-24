@@ -61,24 +61,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function autoDetectLocation() {
         try {
-            // Primary Geolocation API
-            let response = await fetch('https://get.geojs.io/v1/ip/geo.json');
+            let data = null;
 
-            // Fallback if primary fails
-            if (!response.ok) {
-                response = await fetch('https://ipapi.co/json/');
+            try {
+                // Primary: geojs
+                const res1 = await fetch('https://get.geojs.io/v1/ip/geo.json');
+                if (res1.ok) data = await res1.json();
+            } catch (e1) {
+                console.log('geojs blocked, trying ipwhois');
             }
 
-            const data = await response.json();
+            if (!data) {
+                try {
+                    // Secondary: ipwho.is
+                    const res2 = await fetch('https://ipwho.is/');
+                    if (res2.ok) data = await res2.json();
+                } catch (e2) {
+                    console.log('ipwho.is blocked, trying ipapi');
+                }
+            }
 
-            if (data.latitude && data.longitude) {
-                const userLat = parseFloat(data.latitude);
-                const userLon = parseFloat(data.longitude);
+            if (!data) {
+                try {
+                    // Tertiary: ipapi
+                    const res3 = await fetch('https://ipapi.co/json/');
+                    if (res3.ok) data = await res3.json();
+                } catch (e3) {
+                    throw new Error("All IP geo services blocked.");
+                }
+            }
+
+            // Both geojs and ipapi return latitude/longitude directly. ipwho.is handles similarly.
+            const lat = data.latitude;
+            const lon = data.longitude;
+
+            if (lat && lon) {
+                const userLat = parseFloat(lat);
+                const userLon = parseFloat(lon);
 
                 let nearestDivision = 'dhaka';
                 let shortestDistance = Infinity;
 
-                // Simple distance calculation (Pythagorean) since BD is small
                 for (const [divName, coords] of Object.entries(divisions)) {
                     const dLat = coords.latitude - userLat;
                     const dLon = coords.longitude - userLon;
@@ -96,9 +119,50 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Force update if the value changed from the default
                     updateDisplay();
                 }
+                return; // Success!
             }
+            throw new Error("Invalid coordinate data from IP services.");
         } catch (error) {
-            console.log('Could not fetch geolocation:', error);
+            console.warn('Silent geolocation failed (likely AdBlocker). Trying HTML5 Geolocation...', error);
+
+            // HTML5 Fallback
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const userLat = position.coords.latitude;
+                        const userLon = position.coords.longitude;
+
+                        let nearestDivision = 'dhaka';
+                        let shortestDistance = Infinity;
+
+                        for (const [divName, coords] of Object.entries(divisions)) {
+                            const dLat = coords.latitude - userLat;
+                            const dLon = coords.longitude - userLon;
+                            const distance = dLat * dLat + dLon * dLon;
+
+                            if (distance < shortestDistance) {
+                                shortestDistance = distance;
+                                nearestDivision = divName;
+                            }
+                        }
+
+                        console.log('Nearest division auto-selected (HTML5):', nearestDivision);
+                        if (divisionSelect.value !== nearestDivision) {
+                            divisionSelect.value = nearestDivision;
+                            updateDisplay();
+                        }
+                    },
+                    (geoErr) => {
+                        console.error('HTML5 Geolocation also failed or denied:', geoErr);
+                        // Default to dhaka
+                        if (divisionSelect.value !== 'dhaka') {
+                            divisionSelect.value = 'dhaka';
+                            updateDisplay();
+                        }
+                    },
+                    { timeout: 5000, maximumAge: 60000 }
+                );
+            }
         }
     }
 
