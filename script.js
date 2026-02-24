@@ -61,7 +61,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function autoDetectLocation() {
         try {
-            const response = await fetch('https://get.geojs.io/v1/ip/geo.json');
+            // Primary Geolocation API
+            let response = await fetch('https://get.geojs.io/v1/ip/geo.json');
+
+            // Fallback if primary fails
+            if (!response.ok) {
+                response = await fetch('https://ipapi.co/json/');
+            }
+
             const data = await response.json();
 
             if (data.latitude && data.longitude) {
@@ -84,7 +91,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 console.log('Nearest division auto-selected:', nearestDivision);
-                divisionSelect.value = nearestDivision;
+                if (divisionSelect.value !== nearestDivision) {
+                    divisionSelect.value = nearestDivision;
+                    // Force update if the value changed from the default
+                    updateDisplay();
+                }
             }
         } catch (error) {
             console.log('Could not fetch geolocation:', error);
