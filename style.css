@@ -139,6 +139,21 @@ header {
     background: linear-gradient(90deg, #fff, #b4b4cb);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    line-height: 1;
+}
+
+.title-group {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+
+.by-text {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 /* Sponsor Logo */
