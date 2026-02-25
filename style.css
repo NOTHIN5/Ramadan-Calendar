@@ -148,11 +148,14 @@ header {
     justify-content: center;
 }
 
-.sponsor-logo {
-    height: 35px;
-    width: auto;
-    object-fit: contain;
-    filter: brightness(0) invert(1) drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
+.sponsor-text {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+    margin: 0;
+    line-height: 1;
 }
 
 /* Custom Select */
