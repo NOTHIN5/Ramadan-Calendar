@@ -1,13 +1,13 @@
 :root {
-    --bg-dark: #0a0a14;
-    --bg-light: #16162a;
-    --primary: #00f2fe;
-    --primary-dim: rgba(0, 242, 254, 0.2);
-    --secondary: #4facfe;
-    --accent: #fcd555;
+    --bg-dark: #0a0400;
+    --bg-light: #160a0a;
+    --primary: #ff5722;
+    --primary-dim: rgba(255, 87, 34, 0.2);
+    --secondary: #e53935;
+    --accent: #ff9800;
     /* for sehri/iftar highlights */
     --text-main: #ffffff;
-    --text-muted: #a0a0b8;
+    --text-muted: #d0b8b0;
     --glass-bg: rgba(22, 22, 42, 0.5);
     --glass-border: rgba(255, 255, 255, 0.08);
     --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
@@ -78,7 +78,7 @@ body {
     left: 20%;
     width: 300px;
     height: 300px;
-    background: #5b21b6;
+    background: #d84315;
     animation-delay: -10s;
 }
 
@@ -389,7 +389,7 @@ header {
 }
 
 .sehri-card .time-card-icon {
-    background: rgba(79, 172, 254, 0.1);
+    background: rgba(255, 87, 34, 0.1);
     color: var(--secondary);
 }
 
@@ -398,7 +398,7 @@ header {
 }
 
 .iftar-card .time-card-icon {
-    background: rgba(252, 213, 85, 0.1);
+    background: rgba(255, 152, 0, 0.1);
     color: var(--accent);
 }
 
@@ -471,7 +471,8 @@ tbody tr:hover {
 }
 
 .today-row {
-    background: rgba(0, 242, 254, 0.05);
+    background: rgba(255, 87, 34, 0.05);
+    /* Orange dim bg */
     border-left: 3px solid var(--primary);
 }
 
