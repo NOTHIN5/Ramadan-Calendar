@@ -141,6 +141,20 @@ header {
     -webkit-text-fill-color: transparent;
 }
 
+/* Sponsor Logo */
+.header-sponsor {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sponsor-logo {
+    height: 35px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
+}
+
 /* Custom Select */
 .division-selector-container {
     position: relative;
@@ -459,6 +473,13 @@ footer p {
     header {
         flex-direction: column;
         gap: 1.5rem;
+        text-align: center;
+    }
+
+    .header-sponsor {
+        order: -1;
+        /* Move sponsor logo to the top on mobile */
+        margin-bottom: 0.5rem;
     }
 
     .today-times {
